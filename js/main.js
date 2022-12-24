@@ -102,23 +102,46 @@ const glassOnModel = document.getElementById("avatar");
 const glassInfo = document.getElementById("glassesInfo");
 
 const wearGlass = (id) => {
-    let img = ``;
-    let in4 = ``;
-    dataGlasses.map((item, index) => {
-        if(id == index){
-            img = `<img src="${item.virtualImg}" alt="...">`;
-            in4 = `<h3 style="margin-bottom: 10px">${item.name} - ${item.brand} (${item.color})</h3>
+  let img = ``;
+  let in4 = ``;
+  dataGlasses.map((item, index) => {
+    if (id == index) {
+      localStorage.setItem("glass", JSON.stringify(item));
+      img = `<img src="${item.virtualImg}" alt="...">`;
+      in4 = `<h3 style="margin-bottom: 10px">${item.name} - ${item.brand} (${item.color})</h3>
                 <span style="background-color: #FF6464; padding: 8px 14px; border-radius: 6px">${item.price}</span>
                 <span style="margin-left: 6px; color: #38E54D">Stocking</span>
                 <p style="margin-top: 10px;">${item.description}</p>
-            `
-        }
-    });
-    glassOnModel.innerHTML = img;
-    glassInfo.innerHTML = in4;
-    glassInfo.style.display = "block";
-}
+            `;
+    }
+  });
+  glassOnModel.innerHTML = img;
+  glassInfo.innerHTML = in4;
+  glassInfo.style.display = "block";
+};
 
+const removeGlasses = (right) => {
+  let img = ``;
+  let in4 = ``;
+  if (right) {
+    glassOnModel.innerHTML = "";
+    glassInfo.innerHTML = "";
+    glassInfo.style.display = "none";
+  } else {
+    if (JSON.parse(localStorage.getItem("glass"))) {
+      let vglass = JSON.parse(localStorage.getItem("glass"));
+      img = `<img src="${vglass.virtualImg}" alt="...">`;
+      in4 = `<h3 style="margin-bottom: 10px">${vglass.name} - ${vglass.brand} (${vglass.color})</h3>
+                <span style="background-color: #FF6464; padding: 8px 14px; border-radius: 6px">${vglass.price}</span>
+                <span style="margin-left: 6px; color: #38E54D">Stocking</span>
+                <p style="margin-top: 10px;">${vglass.description}</p>
+            `;
+      glassOnModel.innerHTML = img;
+      glassInfo.innerHTML = in4;
+      glassInfo.style.display = "block";
+    }
+  }
+};
 
 const loadGlass = () => {
   let content = ``;
